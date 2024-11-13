@@ -37,9 +37,15 @@ const Page = () => {
     { id: 8, icon: "/k.svg", title: "Chang yutgichlar" },
   ];
 
+  const cards = [
+    { id: 1, img: "/header_i1.svg", count: "2" },
+    { id: 2, img: "/heart.svg", count: "11" },
+    { id: 3, img: "/header_shop.svg", count: "7" },
+  ];
+
   return (
-    <div className="sticky top-0 left-0 shadow-lg">
-      <div className="w-full bg-[#EBEFF3] hidden lg:flex">
+    <div className="sticky top-0 left-0 shadow-lg z-[99] ">
+      <div className="w-full bg-[#EBEFF3] hidden sm:flex">
         <div className="w-[90%] m-auto py-3 flex justify-between">
           <div className="flex gap-5">
             <Image src="/location.svg" alt="toshkent" width={16} height={10} />
@@ -58,16 +64,28 @@ const Page = () => {
       </div>
 
       <div className="w-full bg-white py-3">
-        <div className="w-[90%] m-auto flex flex-col gap-3 sm:flex-row justify-between">
+        <div className="w-[90%] m-auto flex flex-col gap-3 md:flex-row justify-between">
           <div className="flex items-center justify-between">
-            <div className="flex">
-              <Image src={"/logo1.svg"} alt="logo" width={45} height={45} />
-              <Image src={"/logo2.svg"} alt="logo" width={79} height={33} />
-            </div>
+            <Link className="flex" href="/">
+              <Image
+                src={"/logo1.svg"}
+                alt="logo"
+                width={35}
+                height={35}
+                className="md:w-[45px] h-[45px]"
+              />
+              <Image
+                src={"/logo2.svg"}
+                alt="logo"
+                width={60}
+                height={33}
+                className="md:w-[75px] h-auto"
+              />
+            </Link>
             <p className="text-[14px] text-[#203F68] font-bold sm:hidden">
               +998 (71) 123-45-67
             </p>
-            <button onClick={() => setOpen(!open)} className="sm:hidden">
+            <button onClick={() => setOpen(!open)} className="md:hidden">
               <Image src={"/menu.svg"} alt="menu" width={20} height={14} />
             </button>
           </div>
@@ -82,17 +100,29 @@ const Page = () => {
             </button>
 
             {dropdownOpen && (
-              <div className="absolute top-[100%] left-0 sm:left-[200px] w-[250px] bg-white shadow-lg rounded-md mt-2 p-3">
-                {categories.map((category) => (
+             
+                <div className="absolute top-[100%] left-5 md:left-[200px] w-[250px] bg-white shadow-lg rounded-md mt-2 p-3">
+               {categories.map((category) => (
                   <div
                     key={category.id}
                     className="flex items-center gap-2 py-2 px-3 hover:bg-[#f1f1f1] rounded-md cursor-pointer"
                   >
-                    <Image src={category.icon} alt={category.title} width={20} height={20} />
-                    <span className="text-[#203F68] text-[14px]">{category.title}</span>
+                    <Image
+                      src={category.icon}
+                      alt={category.title}
+                      width={20}
+                      height={20}
+                    />
+                    <Link href="/category" className="text-[#203F68] text-[14px]">
+                      {category.title}
+                    </Link>
                   </div>
                 ))}
+             
               </div>
+
+               
+
             )}
 
             <div className="flex bg-[#F2F0FE] rounded-[5px] justify-between overflow-hidden w-full lg:w-[400px] xl:w-[680px]">
@@ -102,32 +132,28 @@ const Page = () => {
                 className="bg-inherit border-none w-full outline-none text-[12px] mx-3"
               />
               <button className="py-2 px-[10px] bg-[#134E9B] text-[12px] rounded-[5px] md:px-[20px]">
-                <Image src={"/search.svg"} alt="search" width={16} height={16} />
+                <Image
+                  src={"/search.svg"}
+                  alt="search"
+                  width={16}
+                  height={16}
+                />
               </button>
             </div>
           </div>
 
           <div className="gap-[15px] hidden md:flex">
-            <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
-              <Image src="/header_i1.svg" alt="icon" width={20} height={20} />
-              <div className="absolute top-[0] right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
-                2
+            {cards.map((item) => (
+              <div
+                key={item.id}
+                className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
+              >
+                <Image src={item.img} alt="icon" width={20} height={20} />
+                <div className="absolute top-0 right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
+                  {item.count}
+                </div>
               </div>
-            </div>
-
-            <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
-              <Image src="/heart.svg" alt="icon" width={20} height={20} />
-              <div className="absolute top-[0] right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
-                11
-              </div>
-            </div>
-
-            <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
-              <Image src="/header_shop.svg" alt="icon" width={20} height={20} />
-              <div className="absolute top-[0] right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
-                7
-              </div>
-            </div>
+            ))}
 
             <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
               <Image src="/user.svg" alt="icon" width={20} height={20} />
@@ -137,25 +163,26 @@ const Page = () => {
 
         <div className="w-[90%] hidden justify-between items-center m-auto mt-[20px] md:flex">
           {links.map((item) => (
-            <Link href={item.link} key={item.id} className="text-[10px] text-[#545D6A] lg:text-[12px] xl:text-[14px]">
+            <Link
+              href={item.link}
+              key={item.id}
+            >
               {item.title}
             </Link>
           ))}
         </div>
       </div>
 
-      {/* Sidebar / Menu */}
       <div
-        className={`fixed top-0 left-0 w-[200px] h-full py-3 pl-3 bg-[#ededed] shadow-lg transform ${
+        className={`fixed top-0 left-0 w-[230px] flex flex-col gap-5 h-full py-3 pl-3 bg-[#ededed] shadow-lg transform ${
           open ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out`}
       >
-        <div className="flex mb-4">
+        <div className="flex">
           <Image src={"/logo1.svg"} alt="logo" width={39} height={39} />
           <Image src={"/logo2.svg"} alt="logo" width={65} height={33} />
         </div>
 
-        {/* Links in the menu */}
         <div className="flex flex-col gap-4">
           {links.map((item) => (
             <Link
@@ -167,9 +194,32 @@ const Page = () => {
             </Link>
           ))}
         </div>
+
+        <div className="gap-[15px] grid grid-cols-4">
+          {cards.map((item) => (
+              <div
+                key={item.id}
+                className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
+              >
+                <Image src={item.img} alt="icon" width={20} height={20} />
+                <div className="absolute top-0 right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
+                  {item.count}
+                </div>
+              </div>
+            ))}
+
+            <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
+              <Image src="/user.svg" alt="icon" width={20} height={20} />
+            </div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Page;
+
+
+
+
+
