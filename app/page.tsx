@@ -6,13 +6,13 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const products = [
-    {id: 1, btn: "Noutbooklar", img:"/hero.svg"},
-    {id: 2, btn: "Havo sovutgichlar", img:"/komp.svg"},
-    {id: 3, btn: "Kiryuvish mashina", img:"/komp.svg"},
-    {id: 4, btn: "Televizorlar", img:"/tv.svg"},
-    {id: 5, btn: "Muzlatgichlar", img:"/komp.svg"},
-    {id: 6, btn: "Telefonlar", img:"/hero.svg"},
-  ]
+    { id: 1, color: "#5C4F8C", btn: "Noutbooklar", img: "/komp.svg" },
+    { id: 2, color: "#797C7D", btn: "Havo sovutgichlar", img: "/product2.svg" },
+    { id: 3, color: "#797C7D", btn: "Kiryuvish mashina", img: "/product3.svg" },
+    { id: 4, color: "#CEAF75", btn: "Televizorlar", img: "/tv.svg" },
+    { id: 5, color: "#888380", btn: "Muzlatgichlar", img: "/product4.svg" },
+    { id: 6, color: "#676D86", btn: "Telefonlar", img: "/hero.svg" },
+  ];
 
   const card = [
     {
@@ -83,61 +83,6 @@ const Home = () => {
     },
     {
       id: 7,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 8,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 9,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 10,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 11,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 12,
       title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
       price: "6 999 999usz ",
       about: "6 X/568 999 ",
@@ -232,6 +177,7 @@ const Home = () => {
   ];
 
   const product = [{ id: 1 }, { id: 2 }, { id: 3 }];
+  const product2 = [{ id: 1 }];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -440,25 +386,255 @@ const Home = () => {
         </div>
       ))}
 
-   <div className="grid grid-cols-2 w-[90%] m-auto mt-[60px]">
-    {
-      products.map((item)=> (
-    <div
-          style={{
-           backgroundImage: `url(${item.img})`,
-           backgroundSize: 'cover', 
-           backgroundPosition: 'center',         
-         }}
-         className="w-[200px] h-[200px] p-[20px] rounded-[5px]"
-         key={item.id}
-       >
-         <button>dscfcsd</button>
-       </div> 
-      ))
-    }
-   
-   </div>
+      <div className="grid grid-cols-2 w-[90%] md:grid-cols-3 lg:grid-cols-4 m-auto mt-[60px] gap-5">
+        {products.map((item) => (
+          <div
+            style={{
+              backgroundImage: `url(${item.img})`,
+              backgroundSize: "cover",
+              objectFit: "cover",
+              backgroundColor: `${item.color}`,
+            }}
+            className=" py-[6px] px-[10px]  w-auto h-[130px] sm:h-[200px] lg:h-[250px]  rounded-[5px] "
+            key={item.id}
+          >
+            <button className="border-[1px] rounded-[16px] text-[white] border-[white] py-[3px] px-[7px] text-[12px] md:text-[16px]">
+              {item.btn}
+            </button>
+          </div>
+        ))}
+        <div>
+          <button className="bg-[#0F4A97] w-full rounded-[16px] text-white py-[10px]">
+            kuproq
+          </button>
+        </div>
+      </div>
+      {product2.map((item) => (
+        <div
+          key={item.id}
+          className="w-[90%] h-auto m-auto mt-[50px] lg:mt-[80px]"
+        >
+          <h1 className="text-[16px] font-bold lg:text-[24px] lg:my-8 mb-3 xl:mb-[50px] xl:text-[32px]">
+            Aksiyadagi tovarlar
+          </h1>
 
+          <div className="relative">
+            <div
+              id="carousel"
+              className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
+            >
+              {card.map((item) => (
+                <div
+                  key={item.id}
+                  className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
+                >
+                  <div className="bg-[#EBEFF3] rounded-[5px]">
+                    <div className="flex justify-between items-center pt-[12px] pr-[12px]">
+                      <h1 className="text-[#E81504] bg-white ml-[12px] py-[7px] px-[10px]  rounded-[7px] text-[12px]">
+                        Aksiyada
+                      </h1>
+                      <Image
+                        src={item.heart}
+                        alt={item.img}
+                        width={14}
+                        height={14}
+                        className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
+                      />
+                    </div>
+                    <div className="flex justify-center">
+                      <Image
+                        src={item.bgImg}
+                        alt={item.img}
+                        width={203}
+                        height={203}
+                      />
+                    </div>
+                  </div>
+                  <h1 className="text-[#545D6A] text-[12px]  mt-3">
+                    {item.title}
+                  </h1>
+                  <div className="flex justify-between items-end">
+                    <h1 className="text-[12px]">{item.price}</h1>
+                    <div className="text-[#F02C96] text-[10px] p-[7px] bg-[#F02C9610]">
+                      {item.about}
+                    </div>
+                  </div>
+                  <div className="flex justify-between">
+                    <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
+                      <Image
+                        src={item.img}
+                        alt={item.img}
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                    <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
+                      {" "}
+                      <p className="text-[12px] text-white">Savatcha</p>{" "}
+                      <Image
+                        src={item.shop}
+                        alt={item.img}
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                const carousel = document.getElementById("carousel");
+                if (carousel) {
+                  carousel.scrollBy({
+                    left: -200,
+                    behavior: "smooth",
+                  });
+                } else {
+                  console.error("error");
+                }
+              }}
+              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 text-gray-600 p-2 rounded-full shadow-md"
+            >
+              &#8592;
+            </button>
+
+            <button
+              onClick={() => {
+                const carousel = document.getElementById("carousel");
+                if (carousel) {
+                  carousel.scrollBy({
+                    left: 200,
+                    behavior: "smooth",
+                  });
+                } else {
+                  console.error("error");
+                }
+              }}
+              className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 text-gray-600 p-2 rounded-full shadow-md"
+            >
+              &#8594;
+            </button>
+          </div>
+        </div>
+      ))}
+
+      <div className="px-[25px] mt-[50px] w-[90%] m-auto flex py-[20px] gap-[15px] rounded-[10px] bg-[#282828]">
+        <div className="w-[50%] flex justify-center">
+          <Image src="/noushnik.svg" alt="noushnik" width={145} height={150} className=" sm:w-[200px] md:w-[250px] lg:w-[300px] xl:w-[380px] " />
+        </div>
+        <div className="w-[50%] flex flex-col justify-center gap-[10px]">
+          <h1 className="text-[14px] sm:text-[16px] md:text-[24px] lg:text-[28px] xl:text-[32px] text-[white] font-bold">Musiqa zavqini his qilish uchun kop mablag sarflash shart emas!</h1>
+          <button className="bg-white w-[94px] lg:text-[14px] xl:text-[16px] py-[9px] px-[20px] text-[#282828] rounded-[5px] text-[12px]">Batafsil</button>
+        </div>
+      </div>
+
+
+      {product2.map((item) => (
+        <div key={item.id} className="w-[90%] h-auto m-auto mt-[50px] lg:mt-[80px]">
+          <h1 className="text-[16px] font-bold lg:text-[24px] lg:my-8 mb-3 xl:mb-[50px] xl:text-[32px]">
+          Oxirgi ko’rgan mahsulotlar
+          </h1>
+
+          <div className="relative">
+            <div
+              id="carousel"
+              className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
+            >
+              {card.map((item) => (
+                <div
+                  key={item.id}
+                  className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
+                >
+                  <div className="bg-[#EBEFF3] rounded-[5px]">
+                    <div className="flex justify-end pt-[12px] pr-[12px]">
+                      <Image
+                        src={item.heart}
+                        alt={item.img}
+                        width={14}
+                        height={14}
+                        className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
+                      />
+                    </div>
+                    <div className="flex justify-center">
+                      <Image
+                        src={item.bgImg}
+                        alt={item.img}
+                        width={203}
+                        height={203}
+                      />
+                    </div>
+                  </div>
+                  <h1 className="text-[#545D6A] text-[12px]  mt-3">
+                    {item.title}
+                  </h1>
+                  <div className="flex justify-between items-end">
+                    <h1 className="text-[12px]">{item.price}</h1>
+                    <div className="text-[#F02C96] text-[10px] p-[7px] bg-[#F02C9610]">
+                      {item.about}
+                    </div>
+                  </div>
+                  <div className="flex justify-between">
+                    <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
+                      <Image
+                        src={item.img}
+                        alt={item.img}
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                    <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
+                      {" "}
+                      <p className="text-[12px] text-white">Savatcha</p>{" "}
+                      <Image
+                        src={item.shop}
+                        alt={item.img}
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                const carousel = document.getElementById("carousel");
+                if (carousel) {
+                  carousel.scrollBy({
+                    left: -200,
+                    behavior: "smooth",
+                  });
+                } else {
+                  console.error("error");
+                }
+              }}
+              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 text-gray-600 p-2 rounded-full shadow-md"
+            >
+              &#8592;
+            </button>
+
+            <button
+              onClick={() => {
+                const carousel = document.getElementById("carousel");
+                if (carousel) {
+                  carousel.scrollBy({
+                    left: 200,
+                    behavior: "smooth",
+                  });
+                } else {
+                  console.error("error");
+                }
+              }}
+              className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-200 text-gray-600 p-2 rounded-full shadow-md"
+            >
+              &#8594;
+            </button>
+          </div>
+        </div>
+      ))}
 
     </div>
   );
