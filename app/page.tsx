@@ -1,11 +1,37 @@
+
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
-const Home = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const products = [
+const Home = () => {
+  type ProductTYpe = {
+    id: number;
+    name: string;
+    price: number;
+    images: string;
+  };
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [products, setProducts] = useState<ProductTYpe[]>([]); 
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('https://texnoark.ilyosbekdev.uz/products/search');
+        const data = await res.json();
+        const productsData = data?.data?.products || [];
+        setProducts(productsData);
+        console.log(productsData);
+         
+      } catch (error) {
+        console.error('Xatolik yuz berdi:', error);
+      }
+    };
+    fetchProducts();
+  }, []);
+  
+
+  const hero = [
     { id: 1, color: "#5C4F8C", btn: "Noutbooklar", img: "/komp.svg" },
     { id: 2, color: "#797C7D", btn: "Havo sovutgichlar", img: "/product2.svg" },
     { id: 3, color: "#797C7D", btn: "Kiryuvish mashina", img: "/product3.svg" },
@@ -14,85 +40,6 @@ const Home = () => {
     { id: 6, color: "#676D86", btn: "Telefonlar", img: "/hero.svg" },
   ];
 
-  const card = [
-    {
-      id: 1,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 2,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 3,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 4,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 5,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 6,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-    {
-      id: 7,
-      title: "Смартфон Xiaomi 12 Lite 8/128Gb Қора ",
-      price: "6 999 999usz ",
-      about: "6 X/568 999 ",
-      img: "/card.svg",
-      heart: "/heart.svg",
-      icon: "/save.svg",
-      bgImg: "/airpods.svg",
-      shop: "/shop.svg",
-    },
-  ];
   const slides = [
     {
       id: 1,
@@ -292,16 +239,16 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-              {card.map((item) => (
+              {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className="bg-[#EBEFF3] rounded-[5px]">
+                  <div className="bg-[#EBEFF3] rounded-[5px] h-[250px]">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
                       <Image
-                        src={item.heart}
-                        alt={item.img}
+                        src="/heart.svg"
+                        alt="img"
                         width={14}
                         height={14}
                         className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
@@ -309,27 +256,25 @@ const Home = () => {
                     </div>
                     <div className="flex justify-center">
                       <Image
-                        src={item.bgImg}
-                        alt={item.img}
+                        src={item.images?.[0]}
+                        alt={item.images}
                         width={203}
                         height={203}
                       />
                     </div>
                   </div>
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
-                    {item.title}
+                    {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
                     <h1 className="text-[12px]">{item.price}</h1>
-                    <div className="text-[#F02C96] text-[10px] p-[7px] bg-[#F02C9610]">
-                      {item.about}
-                    </div>
+                    
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
                       <Image
-                        src={item.img}
-                        alt={item.img}
+                        src="/card.svg"
+                        alt="img"
                         width={20}
                         height={20}
                       />
@@ -338,8 +283,8 @@ const Home = () => {
                       {" "}
                       <p className="text-[12px] text-white">Savatcha</p>{" "}
                       <Image
-                        src={item.shop}
-                        alt={item.img}
+                        src="/shop.svg"
+                        alt="img"
                         width={20}
                         height={20}
                       />
@@ -387,7 +332,7 @@ const Home = () => {
       ))}
 
       <div className="grid grid-cols-2 w-[90%] md:grid-cols-3 lg:grid-cols-4 m-auto mt-[60px] gap-5">
-        {products.map((item) => (
+        {hero.map((item) => (
           <div
             style={{
               backgroundImage: `url(${item.img})`,
@@ -423,19 +368,16 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-              {card.map((item) => (
+             {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className="bg-[#EBEFF3] rounded-[5px]">
-                    <div className="flex justify-between items-center pt-[12px] pr-[12px]">
-                      <h1 className="text-[#E81504] bg-white ml-[12px] py-[7px] px-[10px]  rounded-[7px] text-[12px]">
-                        Aksiyada
-                      </h1>
+                  <div className="bg-[#EBEFF3] rounded-[5px] h-[250px]">
+                    <div className="flex justify-end pt-[12px] pr-[12px]">
                       <Image
-                        src={item.heart}
-                        alt={item.img}
+                        src="/heart.svg"
+                        alt="img"
                         width={14}
                         height={14}
                         className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
@@ -443,27 +385,25 @@ const Home = () => {
                     </div>
                     <div className="flex justify-center">
                       <Image
-                        src={item.bgImg}
-                        alt={item.img}
+                        src={item.images?.[0]}
+                        alt={item.images}
                         width={203}
                         height={203}
                       />
                     </div>
                   </div>
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
-                    {item.title}
+                    {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
                     <h1 className="text-[12px]">{item.price}</h1>
-                    <div className="text-[#F02C96] text-[10px] p-[7px] bg-[#F02C9610]">
-                      {item.about}
-                    </div>
+                    
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
                       <Image
-                        src={item.img}
-                        alt={item.img}
+                        src="/card.svg"
+                        alt="img"
                         width={20}
                         height={20}
                       />
@@ -472,8 +412,8 @@ const Home = () => {
                       {" "}
                       <p className="text-[12px] text-white">Savatcha</p>{" "}
                       <Image
-                        src={item.shop}
-                        alt={item.img}
+                        src="/shop.svg"
+                        alt="img"
                         width={20}
                         height={20}
                       />
@@ -542,16 +482,16 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-              {card.map((item) => (
+             {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className="bg-[#EBEFF3] rounded-[5px]">
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
                       <Image
-                        src={item.heart}
-                        alt={item.img}
+                        src="/heart.svg"
+                        alt="img"
                         width={14}
                         height={14}
                         className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
@@ -559,27 +499,25 @@ const Home = () => {
                     </div>
                     <div className="flex justify-center">
                       <Image
-                        src={item.bgImg}
-                        alt={item.img}
+                        src={item.images?.[0]}
+                        alt={item.images}
                         width={203}
                         height={203}
                       />
                     </div>
                   </div>
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
-                    {item.title}
+                    {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
                     <h1 className="text-[12px]">{item.price}</h1>
-                    <div className="text-[#F02C96] text-[10px] p-[7px] bg-[#F02C9610]">
-                      {item.about}
-                    </div>
+                    
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
                       <Image
-                        src={item.img}
-                        alt={item.img}
+                        src="/card.svg"
+                        alt="img"
                         width={20}
                         height={20}
                       />
@@ -588,8 +526,8 @@ const Home = () => {
                       {" "}
                       <p className="text-[12px] text-white">Savatcha</p>{" "}
                       <Image
-                        src={item.shop}
-                        alt={item.img}
+                        src="/shop.svg"
+                        alt="img"
                         width={20}
                         height={20}
                       />
@@ -639,5 +577,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;
