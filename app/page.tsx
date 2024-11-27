@@ -2,6 +2,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 
 const Home = () => {
@@ -239,13 +240,15 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-              {products.map((item) => (
+             {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className="bg-[#EBEFF3] rounded-[5px] h-[250px]">
+                  
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px]  ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
+                    
                       <Image
                         src="/heart.svg"
                         alt="img"
@@ -253,16 +256,20 @@ const Home = () => {
                         height={14}
                         className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
                       />
+                      
                     </div>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center h-[220px]  ">
+                    <Link href={`/product/${item.id}`} className="flex items-center justify-center" >
                       <Image
                         src={item.images?.[0]}
                         alt={item.images}
                         width={203}
                         height={203}
                       />
+                      </Link>
                     </div>
                   </div>
+                  
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
                     {item.name}
                   </h1>
@@ -368,13 +375,15 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-             {products.map((item) => (
+            {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className="bg-[#EBEFF3] rounded-[5px] h-[250px]">
+                  
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px]  ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
+                    
                       <Image
                         src="/heart.svg"
                         alt="img"
@@ -382,16 +391,20 @@ const Home = () => {
                         height={14}
                         className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
                       />
+                      
                     </div>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center h-[220px]  ">
+                    <Link href={`/product/${item.id}`} className="flex items-center justify-center" >
                       <Image
                         src={item.images?.[0]}
                         alt={item.images}
                         width={203}
                         height={203}
                       />
+                      </Link>
                     </div>
                   </div>
+                  
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
                     {item.name}
                   </h1>
@@ -482,13 +495,15 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-             {products.map((item) => (
+           {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] ">
+                  
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px]  ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
+                    
                       <Image
                         src="/heart.svg"
                         alt="img"
@@ -496,16 +511,20 @@ const Home = () => {
                         height={14}
                         className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
                       />
+                      
                     </div>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center h-[220px]  ">
+                    <Link href={`/product/${item.id}`} className="flex items-center justify-center" >
                       <Image
                         src={item.images?.[0]}
                         alt={item.images}
                         width={203}
                         height={203}
                       />
+                      </Link>
                     </div>
                   </div>
+                  
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
                     {item.name}
                   </h1>
