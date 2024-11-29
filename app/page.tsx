@@ -259,7 +259,7 @@ const Home = () => {
                       
                     </div>
                     <div className="flex justify-center h-[220px]  ">
-                    <Link href={`/product/${item.id}`} className="flex items-center justify-center" >
+                    <Link href={`/products/${item.id}`} className="flex items-center justify-center" >
                       <Image
                         src={item.images?.[0]}
                         alt={item.images}
@@ -394,7 +394,7 @@ const Home = () => {
                       
                     </div>
                     <div className="flex justify-center h-[220px]  ">
-                    <Link href={`/product/${item.id}`} className="flex items-center justify-center" >
+                    <Link href={`/products/${item.id}`} className="flex items-center justify-center" >
                       <Image
                         src={item.images?.[0]}
                         alt={item.images}
@@ -514,7 +514,7 @@ const Home = () => {
                       
                     </div>
                     <div className="flex justify-center h-[220px]  ">
-                    <Link href={`/product/${item.id}`} className="flex items-center justify-center" >
+                    <Link href={`/products/${item.id}`} className="flex items-center justify-center" >
                       <Image
                         src={item.images?.[0]}
                         alt={item.images}
