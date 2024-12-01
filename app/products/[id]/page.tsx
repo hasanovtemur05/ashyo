@@ -57,7 +57,7 @@ const Page = () => {
       <div className="flex gap-[10px] w-full md:w-[65%] ">
         <div className="bg-[#F6F6F6] p-10 rounded-[4px] ">
           <Image src={product.images?.[0]} alt="img" width={380} height={300}
-          className="xl:w-[500px]"
+          className="xl:w-[400px]"
           />
         </div>
 

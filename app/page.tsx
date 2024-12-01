@@ -1,9 +1,7 @@
-
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
 
 const Home = () => {
   type ProductTYpe = {
@@ -13,24 +11,62 @@ const Home = () => {
     images: string;
   };
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [products, setProducts] = useState<ProductTYpe[]>([]); 
+  const [products, setProducts] = useState<ProductTYpe[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch('https://texnoark.ilyosbekdev.uz/products/search');
+        const res = await fetch(
+          "https://texnoark.ilyosbekdev.uz/products/search"
+        );
         const data = await res.json();
         const productsData = data?.data?.products || [];
         setProducts(productsData);
         console.log(productsData);
-         
       } catch (error) {
-        console.error('Xatolik yuz berdi:', error);
+        console.error("Xatolik yuz berdi:", error);
       }
     };
     fetchProducts();
   }, []);
-  
+
+
+ 
+    // const getLikes = async (id:number) => {
+    //   try {
+    //     const res = await fetch(
+    //       `https://texnoark.ilyosbekdev.uz/likes/user/likes/${id}`
+    //     );
+    //     const data = await res.json();
+    //     console.log(data?.data?.likes)
+        
+    //   } catch (error) {
+    //     console.error("Xatolik yuz berdi:", error);
+    //   }
+    // };
+    // getLikes(202);
+
+
+
+  // const handleLike = async (productId:number) => {
+  //   try {
+  //     const response = await fetch('https://texnoark.ilyosbekdev.uz/likes/create', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         product_id: productId, 
+  //       }),
+  //     });
+
+  //     console.log(response, "likes");
+      
+  //   } catch (error) {
+  //     console.error('Server bilan bog‘lanishda xato:', error);
+  //     alert('Xatolik yuz berdi!');
+  //   }
+  // }
 
   const hero = [
     { id: 1, color: "#5C4F8C", btn: "Noutbooklar", img: "/komp.svg" },
@@ -240,61 +276,52 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-             {products.map((item) => (
+              {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  
-                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px]  ">
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
-                    
-                      <Image
-                        src="/heart.svg"
-                        alt="img"
-                        width={14}
-                        height={14}
-                        className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
-                      />
-                      
+                      <button className="bg-red-500 p-[3px] flex justify-center items-center rounded-[50%] ">
+                        <Image
+                          src="/heart.svg"
+                          alt="img"
+                          width={14}
+                          height={14}
+                          className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
+                        />
+                      </button>
                     </div>
-                    <div className="flex justify-center h-[220px]  ">
-                    <Link href={`/products/${item.id}`} className="flex items-center justify-center" >
-                      <Image
-                        src={item.images?.[0]}
-                        alt={item.images}
-                        width={203}
-                        height={203}
-                      />
+                    <div className="flex justify-center h-[220px] overflow-hidden ">
+                      <Link
+                        href={`/products/${item.id}`}
+                        className="flex items-center justify-center"
+                      >
+                        <Image
+                          src={item.images?.[0]}
+                          alt={item.images}
+                          width={203}
+                          height={203}
+                        />
                       </Link>
                     </div>
                   </div>
-                  
+
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
                     {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
                     <h1 className="text-[12px]">{item.price}</h1>
-                    
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
-                      <Image
-                        src="/card.svg"
-                        alt="img"
-                        width={20}
-                        height={20}
-                      />
+                      <Image src="/card.svg" alt="img" width={20} height={20} />
                     </button>
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
                       {" "}
                       <p className="text-[12px] text-white">Savatcha</p>{" "}
-                      <Image
-                        src="/shop.svg"
-                        alt="img"
-                        width={20}
-                        height={20}
-                      />
+                      <Image src="/shop.svg" alt="img" width={20} height={20} />
                     </button>
                   </div>
                 </div>
@@ -375,61 +402,52 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-            {products.map((item) => (
+              {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  
-                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px]  ">
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
-                    
-                      <Image
-                        src="/heart.svg"
-                        alt="img"
-                        width={14}
-                        height={14}
-                        className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
-                      />
-                      
+                      <div className="bg-red-500 p-[3px] flex justify-center items-center rounded-[50%] ">
+                        <Image
+                          src="/heart.svg"
+                          alt="img"
+                          width={14}
+                          height={14}
+                          className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
+                        />
+                      </div>
                     </div>
-                    <div className="flex justify-center h-[220px]  ">
-                    <Link href={`/products/${item.id}`} className="flex items-center justify-center" >
-                      <Image
-                        src={item.images?.[0]}
-                        alt={item.images}
-                        width={203}
-                        height={203}
-                      />
+                    <div className="flex justify-center h-[220px] overflow-hidden ">
+                      <Link
+                        href={`/products/${item.id}`}
+                        className="flex items-center justify-center"
+                      >
+                        <Image
+                          src={item.images?.[0]}
+                          alt={item.images}
+                          width={203}
+                          height={203}
+                        />
                       </Link>
                     </div>
                   </div>
-                  
+
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
                     {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
                     <h1 className="text-[12px]">{item.price}</h1>
-                    
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
-                      <Image
-                        src="/card.svg"
-                        alt="img"
-                        width={20}
-                        height={20}
-                      />
+                      <Image src="/card.svg" alt="img" width={20} height={20} />
                     </button>
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
                       {" "}
                       <p className="text-[12px] text-white">Savatcha</p>{" "}
-                      <Image
-                        src="/shop.svg"
-                        alt="img"
-                        width={20}
-                        height={20}
-                      />
+                      <Image src="/shop.svg" alt="img" width={20} height={20} />
                     </button>
                   </div>
                 </div>
@@ -475,19 +493,31 @@ const Home = () => {
 
       <div className="px-[25px] mt-[50px] w-[90%] m-auto flex py-[20px] gap-[15px] rounded-[10px] bg-[#282828]">
         <div className="w-[50%] flex justify-center">
-          <Image src="/noushnik.svg" alt="noushnik" width={145} height={150} className=" sm:w-[200px] md:w-[250px] lg:w-[300px] xl:w-[380px] " />
+          <Image
+            src="/noushnik.svg"
+            alt="noushnik"
+            width={145}
+            height={150}
+            className=" sm:w-[200px] md:w-[250px] lg:w-[300px] xl:w-[380px] "
+          />
         </div>
         <div className="w-[50%] flex flex-col justify-center gap-[10px]">
-          <h1 className="text-[14px] sm:text-[16px] md:text-[24px] lg:text-[28px] xl:text-[32px] text-[white] font-bold">Musiqa zavqini his qilish uchun kop mablag sarflash shart emas!</h1>
-          <button className="bg-white w-[94px] lg:text-[14px] xl:text-[16px] py-[9px] px-[20px] text-[#282828] rounded-[5px] text-[12px]">Batafsil</button>
+          <h1 className="text-[14px] sm:text-[16px] md:text-[24px] lg:text-[28px] xl:text-[32px] text-[white] font-bold">
+            Musiqa zavqini his qilish uchun kop mablag sarflash shart emas!
+          </h1>
+          <button className="bg-white w-[94px] lg:text-[14px] xl:text-[16px] py-[9px] px-[20px] text-[#282828] rounded-[5px] text-[12px]">
+            Batafsil
+          </button>
         </div>
       </div>
 
-
       {product2.map((item) => (
-        <div key={item.id} className="w-[90%] h-auto m-auto mt-[50px] lg:mt-[80px]">
+        <div
+          key={item.id}
+          className="w-[90%] h-auto m-auto mt-[50px] lg:mt-[80px]"
+        >
           <h1 className="text-[16px] font-bold lg:text-[24px] lg:my-8 mb-3 xl:mb-[50px] xl:text-[32px]">
-          Oxirgi ko’rgan mahsulotlar
+            Oxirgi ko’rgan mahsulotlar
           </h1>
 
           <div className="relative">
@@ -495,61 +525,52 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-           {products.map((item) => (
+              {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  
-                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px]  ">
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
-                    
-                      <Image
-                        src="/heart.svg"
-                        alt="img"
-                        width={14}
-                        height={14}
-                        className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
-                      />
-                      
+                      <div className="bg-red-500 p-[3px] flex justify-center items-center rounded-[50%] ">
+                        <Image
+                          src="/heart.svg"
+                          alt="img"
+                          width={14}
+                          height={14}
+                          className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
+                        />
+                      </div>
                     </div>
-                    <div className="flex justify-center h-[220px]  ">
-                    <Link href={`/products/${item.id}`} className="flex items-center justify-center" >
-                      <Image
-                        src={item.images?.[0]}
-                        alt={item.images}
-                        width={203}
-                        height={203}
-                      />
+                    <div className="flex justify-center h-[220px] overflow-hidden ">
+                      <Link
+                        href={`/products/${item.id}`}
+                        className="flex items-center justify-center"
+                      >
+                        <Image
+                          src={item.images?.[0]}
+                          alt={item.images}
+                          width={203}
+                          height={203}
+                        />
                       </Link>
                     </div>
                   </div>
-                  
+
                   <h1 className="text-[#545D6A] text-[12px]  mt-3">
                     {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
                     <h1 className="text-[12px]">{item.price}</h1>
-                    
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
-                      <Image
-                        src="/card.svg"
-                        alt="img"
-                        width={20}
-                        height={20}
-                      />
+                      <Image src="/card.svg" alt="img" width={20} height={20} />
                     </button>
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
                       {" "}
                       <p className="text-[12px] text-white">Savatcha</p>{" "}
-                      <Image
-                        src="/shop.svg"
-                        alt="img"
-                        width={20}
-                        height={20}
-                      />
+                      <Image src="/shop.svg" alt="img" width={20} height={20} />
                     </button>
                   </div>
                 </div>
@@ -592,7 +613,6 @@ const Home = () => {
           </div>
         </div>
       ))}
-
     </div>
   );
 };
