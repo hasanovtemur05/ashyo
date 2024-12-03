@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -32,42 +33,110 @@ const Home = () => {
 
 
  
-    // const getLikes = async (id:number) => {
-    //   try {
-    //     const res = await fetch(
-    //       `https://texnoark.ilyosbekdev.uz/likes/user/likes/${id}`
-    //     );
-    //     const data = await res.json();
-    //     console.log(data?.data?.likes)
-        
-    //   } catch (error) {
-    //     console.error("Xatolik yuz berdi:", error);
-    //   }
-    // };
-    // getLikes(202);
-
-
-
-  // const handleLike = async (productId:number) => {
-  //   try {
-  //     const response = await fetch('https://texnoark.ilyosbekdev.uz/likes/create', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         product_id: productId, 
-  //       }),
-  //     });
-
-  //     console.log(response, "likes");
+  const getLikes = async (id: number) => {
+    if (!id) {
+      console.error("No user ID provided");
+      return;
+    }
+  
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      console.error("No access token found");
+      return;
+    }
+  
+    try {
+      const response = await fetch(
+        `https://texnoark.ilyosbekdev.uz/likes/user/likes/${id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (!response.ok) {
+        let errorMessage = "Failed to fetch liked products";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          console.error("Error parsing error message");
+        }
+        throw new Error(errorMessage);
+      }
+  
+      const data = await response.json();
       
-  //   } catch (error) {
-  //     console.error('Server bilan bog‘lanishda xato:', error);
-  //     alert('Xatolik yuz berdi!');
-  //   }
-  // }
+    } catch (error: any) {
+      console.error("Error fetching liked products:", error.message || error);
+      return [];
+    }
+  };
+  
 
+
+    const handleLike = async (id: number) => {
+      if (!id) {
+        console.error("No product ID provided");
+        return;
+      }
+    
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        console.error("No access token found");
+        return;
+      }
+    
+      try {
+        const response = await fetch(
+          "https://texnoark.ilyosbekdev.uz/likes/create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ product_id: id }),
+          }
+        );
+    
+        if (!response.ok) {
+          let errorMessage = "Failed to like the product";
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch {
+            console.error("Error parsing error message");
+          }
+          throw new Error(errorMessage);
+        }
+    
+        let likedProducts: number[] = [];
+        try {
+          likedProducts = JSON.parse(
+            localStorage.getItem("likedProducts") || "[]"
+          );
+        } catch {
+          console.error("Failed to parse likedProducts from localStorage");
+          likedProducts = [];
+        }
+    
+        if (!likedProducts.includes(id)) {
+          likedProducts.push(id);
+          localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
+        }
+    
+        console.log("Product liked successfully!");
+      } catch (error: any) {
+        console.error("Error liking the product:", error.message || error);
+      }
+    };
+    
+    
+
+    
   const hero = [
     { id: 1, color: "#5C4F8C", btn: "Noutbooklar", img: "/komp.svg" },
     { id: 2, color: "#797C7D", btn: "Havo sovutgichlar", img: "/product2.svg" },
@@ -283,7 +352,7 @@ const Home = () => {
                 >
                   <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
-                      <button className="bg-red-500 p-[3px] flex justify-center items-center rounded-[50%] ">
+                      <button onClick={() => handleLike(item.id)} className="bg-red-500 p-[3px] flex justify-center items-center rounded-[50%] ">
                         <Image
                           src="/heart.svg"
                           alt="img"

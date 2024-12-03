@@ -7,6 +7,8 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+
+
   const link = [
     { id: 1, link: "/", title: "Tashkent" },
     { id: 2, link: "/", title: "About Us" },
@@ -155,9 +157,9 @@ const Page = () => {
               </div>
             ))}
 
-            <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
+            <Link className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center" href={"/login"} >
               <Image src="/user.svg" alt="icon" width={20} height={20} />
-            </div>
+            </Link>
           </div>
         </div>
 
