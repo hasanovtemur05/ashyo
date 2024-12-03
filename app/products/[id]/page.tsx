@@ -67,7 +67,7 @@ const Page = () => {
               <Image
                 src={product.images?.[0]}
                 alt="img"
-                width={50}
+                width={500}
                 height={200}
                 className="w-auto h-auto sm:w-[100px] "
               />
@@ -76,7 +76,7 @@ const Page = () => {
               <Image
                 src={product.images?.[0]}
                 alt="img"
-                width={50}
+                width={500}
                 height={200}
                 className="w-auto h-auto sm:w-[100px] "
               />
@@ -85,7 +85,7 @@ const Page = () => {
               <Image
                 src={product.images?.[0]}
                 alt="img"
-                width={50}
+                width={500}
                 height={200}
                 className="w-auto h-auto sm:w-[100px]"
               />

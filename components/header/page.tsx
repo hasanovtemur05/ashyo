@@ -1,49 +1,64 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+const link = [
+  { id: 1, link: "/", title: "Tashkent" },
+  { id: 2, link: "/", title: "About Us" },
+  { id: 3, link: "/", title: "Products" },
+  { id: 4, link: "/", title: "Contacts" },
+];
+
+const links = [
+  { id: 1, link: "/", title: "Aksiyalar" },
+  { id: 2, link: "/", title: "Smartfonlar" },
+  { id: 3, link: "/", title: "Noutbooklar" },
+  { id: 4, link: "/", title: "Kondetsionerlar" },
+  { id: 5, link: "/", title: "Telivizorlar" },
+  { id: 6, link: "/", title: "Muzlatgichlar" },
+  { id: 7, link: "/", title: "Kiryuvish mashinalari" },
+  { id: 8, link: "/", title: "Telivizorlar" },
+  { id: 9, link: "/", title: "Kiryuvish mashinalari" },
+];
+
+const categories = [
+  { id: 1, icon: "/aktsiyalar.svg", title: "Aksiyalar" },
+  { id: 2, icon: "/tel.svg", title: "Smartfonlar va Aksasuarlar" },
+  { id: 3, icon: "/kirmoshina.svg", title: "Kir yuvish mashinalari" },
+  { id: 4, icon: "/televezor.svg", title: "Televizorlar" },
+  { id: 5, icon: "/koditsoner.svg", title: "Konditsionerlar" },
+  { id: 6, icon: "/komp.svg", title: "Kompyuter va jihozlari" },
+  { id: 7, icon: "/m.svg", title: "Muzlatgichlar" },
+  { id: 8, icon: "/k.svg", title: "Chang yutgichlar" },
+];
 const Page = () => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const userId = localStorage.getItem('user_id')
+  const [count, setCount] = useState(0)
+  const cards = useMemo(()=>{
+    return [
+      { id: 1, img: "/header_i1.svg", count: "2", link:"/" },
+      { id: 2, img: "/heart.svg", count: count, link:"/likes" },
+      { id: 3, img: "/header_shop.svg", count: "7", link:"/" },
+    ];
+  },[count])
 
 
+  const getLikes = async ()=> {
+    const response = await fetch(`https://texnoark.ilyosbekdev.uz/likes/user/likes/${userId}`)
+    const data = await response.json()
+    setCount(data?.data?.count || 0)
 
-  const link = [
-    { id: 1, link: "/", title: "Tashkent" },
-    { id: 2, link: "/", title: "About Us" },
-    { id: 3, link: "/", title: "Products" },
-    { id: 4, link: "/", title: "Contacts" },
-  ];
+    
+  }
+  
+  useEffect(()=>{
+    getLikes()
+  },[])
 
-  const links = [
-    { id: 1, link: "/", title: "Aksiyalar" },
-    { id: 2, link: "/", title: "Smartfonlar" },
-    { id: 3, link: "/", title: "Noutbooklar" },
-    { id: 4, link: "/", title: "Kondetsionerlar" },
-    { id: 5, link: "/", title: "Telivizorlar" },
-    { id: 6, link: "/", title: "Muzlatgichlar" },
-    { id: 7, link: "/", title: "Kiryuvish mashinalari" },
-    { id: 8, link: "/", title: "Telivizorlar" },
-    { id: 9, link: "/", title: "Kiryuvish mashinalari" },
-  ];
-
-  const categories = [
-    { id: 1, icon: "/aktsiyalar.svg", title: "Aksiyalar" },
-    { id: 2, icon: "/tel.svg", title: "Smartfonlar va Aksasuarlar" },
-    { id: 3, icon: "/kirmoshina.svg", title: "Kir yuvish mashinalari" },
-    { id: 4, icon: "/televezor.svg", title: "Televizorlar" },
-    { id: 5, icon: "/koditsoner.svg", title: "Konditsionerlar" },
-    { id: 6, icon: "/komp.svg", title: "Kompyuter va jihozlari" },
-    { id: 7, icon: "/m.svg", title: "Muzlatgichlar" },
-    { id: 8, icon: "/k.svg", title: "Chang yutgichlar" },
-  ];
-
-  const cards = [
-    { id: 1, img: "/header_i1.svg", count: "2" },
-    { id: 2, img: "/heart.svg", count: "11" },
-    { id: 3, img: "/header_shop.svg", count: "7" },
-  ];
 
   return (
     <div className="sticky top-0 left-0 shadow-lg z-[99] ">
@@ -146,8 +161,9 @@ const Page = () => {
 
           <div className="gap-[15px] hidden md:flex">
             {cards.map((item) => (
-              <div
-                key={item.id}
+              <Link href={'/likes'} key={item.id}>
+                <div
+            
                 className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
               >
                 <Image src={item.img} alt="icon" width={20} height={20} />
@@ -155,6 +171,7 @@ const Page = () => {
                   {item.count}
                 </div>
               </div>
+              </Link>
             ))}
 
             <Link className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center" href={"/login"} >
@@ -198,9 +215,10 @@ const Page = () => {
         </div>
 
         <div className="gap-[15px] grid grid-cols-4">
-          {cards.map((item) => (
-              <div
-                key={item.id}
+        {cards.map((item) => (
+              <Link href={'/likes'} key={item.id}>
+                <div
+            
                 className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
               >
                 <Image src={item.img} alt="icon" width={20} height={20} />
@@ -208,6 +226,7 @@ const Page = () => {
                   {item.count}
                 </div>
               </div>
+              </Link>
             ))}
 
             <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">

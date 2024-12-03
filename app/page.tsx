@@ -3,16 +3,50 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+const hero = [
+  { id: 1, color: "#5C4F8C", btn: "Noutbooklar", img: "/komp.svg" },
+  { id: 2, color: "#797C7D", btn: "Havo sovutgichlar", img: "/product2.svg" },
+  { id: 3, color: "#797C7D", btn: "Kiryuvish mashina", img: "/product3.svg" },
+  { id: 4, color: "#CEAF75", btn: "Televizorlar", img: "/tv.svg" },
+  { id: 5, color: "#888380", btn: "Muzlatgichlar", img: "/product4.svg" },
+  { id: 6, color: "#676D86", btn: "Telefonlar", img: "/hero.svg" },
+];
+
+const slides = [
+  {
+    id: 1,
+    image: "/hero.svg",
+    title: "Siz kutgan Xiaomi 12 Mi Lite",
+    description:
+      "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
+  },
+  {
+    id: 2,
+    image: "/komp.svg",
+    title: "Siz kutgan Dell Noutbook",
+    description:
+      "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
+  },
+  {
+    id: 3,
+    image: "/tv.svg",
+    title: "Siz kutgan Smart Tv",
+    description:
+      "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
+  },
+];
+export type ProductType = {
+  id: number;
+  name: string;
+  price: number;
+  images: string;
+};
 
 const Home = () => {
-  type ProductTYpe = {
-    id: number;
-    name: string;
-    price: number;
-    images: string;
-  };
+
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [products, setProducts] = useState<ProductTYpe[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,51 +67,11 @@ const Home = () => {
 
 
  
-  const getLikes = async (id: number) => {
-    if (!id) {
-      console.error("No user ID provided");
-      return;
-    }
-  
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      console.error("No access token found");
-      return;
-    }
-  
-    try {
-      const response = await fetch(
-        `https://texnoark.ilyosbekdev.uz/likes/user/likes/${id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-  
-      if (!response.ok) {
-        let errorMessage = "Failed to fetch liked products";
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.message || errorMessage;
-        } catch {
-          console.error("Error parsing error message");
-        }
-        throw new Error(errorMessage);
-      }
-  
-      const data = await response.json();
-      
-    } catch (error: any) {
-      console.error("Error fetching liked products:", error.message || error);
-      return [];
-    }
-  };
   
 
 
     const handleLike = async (id: number) => {
+      
       if (!id) {
         console.error("No product ID provided");
         return;
@@ -137,38 +131,6 @@ const Home = () => {
     
 
     
-  const hero = [
-    { id: 1, color: "#5C4F8C", btn: "Noutbooklar", img: "/komp.svg" },
-    { id: 2, color: "#797C7D", btn: "Havo sovutgichlar", img: "/product2.svg" },
-    { id: 3, color: "#797C7D", btn: "Kiryuvish mashina", img: "/product3.svg" },
-    { id: 4, color: "#CEAF75", btn: "Televizorlar", img: "/tv.svg" },
-    { id: 5, color: "#888380", btn: "Muzlatgichlar", img: "/product4.svg" },
-    { id: 6, color: "#676D86", btn: "Telefonlar", img: "/hero.svg" },
-  ];
-
-  const slides = [
-    {
-      id: 1,
-      image: "/hero.svg",
-      title: "Siz kutgan Xiaomi 12 Mi Lite",
-      description:
-        "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
-    },
-    {
-      id: 2,
-      image: "/komp.svg",
-      title: "Siz kutgan Dell Noutbook",
-      description:
-        "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
-    },
-    {
-      id: 3,
-      image: "/tv.svg",
-      title: "Siz kutgan Smart Tv",
-      description:
-        "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
-    },
-  ];
 
   const cards = [
     {
@@ -237,7 +199,7 @@ const Home = () => {
       setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
     }, 4000);
     return () => clearInterval(interval);
-  }, [slides.length]);
+  }, []);
 
   const handlePrevSlide = () => {
     setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
@@ -352,7 +314,7 @@ const Home = () => {
                 >
                   <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
-                      <button onClick={() => handleLike(item.id)} className="bg-red-500 p-[3px] flex justify-center items-center rounded-[50%] ">
+                      <button onClick={() => handleLike(item.id)} className="p-[3px] flex justify-center items-center rounded-[50%] ">
                         <Image
                           src="/heart.svg"
                           alt="img"
@@ -478,7 +440,7 @@ const Home = () => {
                 >
                   <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
-                      <div className="bg-red-500 p-[3px] flex justify-center items-center rounded-[50%] ">
+                      <button onClick={() => handleLike(item.id)} className="p-[3px] flex justify-center items-center rounded-[50%] ">
                         <Image
                           src="/heart.svg"
                           alt="img"
@@ -486,7 +448,7 @@ const Home = () => {
                           height={14}
                           className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
                         />
-                      </div>
+                      </button>
                     </div>
                     <div className="flex justify-center h-[220px] overflow-hidden ">
                       <Link
@@ -594,14 +556,14 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-              {products.map((item) => (
+               {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
                   <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
-                      <div className="bg-red-500 p-[3px] flex justify-center items-center rounded-[50%] ">
+                      <button onClick={() => handleLike(item.id)} className="p-[3px] flex justify-center items-center rounded-[50%] ">
                         <Image
                           src="/heart.svg"
                           alt="img"
@@ -609,7 +571,7 @@ const Home = () => {
                           height={14}
                           className="md:w-[16px] md:h-[16px] lg:w-[20px] lg:h-[20px]"
                         />
-                      </div>
+                      </button>
                     </div>
                     <div className="flex justify-center h-[220px] overflow-hidden ">
                       <Link

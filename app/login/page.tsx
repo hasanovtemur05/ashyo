@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const page = () => {
@@ -6,6 +8,7 @@ const page = () => {
     phone_number: string;
     password: string;
   }
+  const router = useRouter()
 
   const fetchProducts = async (data: LoginType): Promise<void> => {
     try {
@@ -19,9 +22,9 @@ const page = () => {
       const result = await res.json();
       const access_token = result?.data?.tokens?.access_token;
       localStorage.setItem("access_token", access_token);
-      console.log(access_token);
+      localStorage.setItem("user_id" , result?.data?.data?.id)
+      router.push('/')
 
-      window.location.href = "/";
     } catch (error) {
       console.error("Xatolik yuz berdi:", error);
     }
