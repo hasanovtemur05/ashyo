@@ -21,8 +21,10 @@ const page = () => {
       });
       const result = await res.json();
       const access_token = result?.data?.tokens?.access_token;
-      localStorage.setItem("access_token", access_token);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("access_token", access_token);
       localStorage.setItem("user_id" , result?.data?.data?.id)
+      }
       router.push('/')
 
     } catch (error) {

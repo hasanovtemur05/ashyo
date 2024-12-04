@@ -36,7 +36,7 @@ const categories = [
 const Page = () => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const userId = localStorage.getItem('user_id')
+  const userId = typeof window !== 'undefined' ? localStorage.getItem('user_id') : '';
   const [count, setCount] = useState(0)
   const cards = useMemo(()=>{
     return [

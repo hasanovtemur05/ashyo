@@ -11,9 +11,9 @@ type LikesType = {
 };
 
 export default function Page() {
-  const userId = localStorage.getItem("user_id");
+  const userId = typeof window !=='undefined' ? localStorage.getItem("user_id") : '';
   if (!userId) {
-    console.error("User ID not found in localStorage");
+    console.error("error");
     return <div>Error: User ID not found</div>;
   }
 

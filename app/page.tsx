@@ -77,7 +77,7 @@ const Home = () => {
         return;
       }
     
-      const token = localStorage.getItem("access_token");
+      const token = typeof window !== 'undefined' ? localStorage.getItem("access_token") : '';
       if (!token) {
         console.error("No access token found");
         return;
@@ -109,9 +109,9 @@ const Home = () => {
     
         let likedProducts: number[] = [];
         try {
-          likedProducts = JSON.parse(
+          likedProducts = typeof window !== 'undefined' ? JSON.parse(
             localStorage.getItem("likedProducts") || "[]"
-          );
+          ) : '';
         } catch {
           console.error("Failed to parse likedProducts from localStorage");
           likedProducts = [];
@@ -119,7 +119,9 @@ const Home = () => {
     
         if (!likedProducts.includes(id)) {
           likedProducts.push(id);
-          localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
+          if (typeof window !== 'undefined') {
+            localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
+          }
         }
     
         console.log("Product liked successfully!");
