@@ -13,9 +13,9 @@ type CartsType = {
 
 export default function Page() {
   const [userId, setUserId] = useState<string | null>(null);
-  const [carts, setCarts] = useState<CartsType[]>([]); 
-  const [loading, setLoading] = useState<boolean>(true); 
-  const [error, setError] = useState<string | null>(null); 
+  const [carts, setCarts] = useState<CartsType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -24,28 +24,55 @@ export default function Page() {
     }
   }, []);
 
-  useEffect(() => {
-    const getCarts = async () => {
-      if (!userId) return;
-      try {
-        setLoading(true); 
-        const response = await fetch(
-          `https://texnoark.ilyosbekdev.uz/carts/user/${userId}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch carts");
-        }
-        const data = await response.json();
-        setCarts(data?.data?.carts || []);
-      } catch (err) {
-        setError("Failed to load carts data.");
-        console.error(err);
-      } finally {
-        setLoading(false); 
+  const fetchCarts = async () => {
+    if (!userId) return;
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://texnoark.ilyosbekdev.uz/carts/user/${userId}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch carts");
       }
-    };
+      const data = await response.json();
+      setCarts(data?.data?.carts || []);
+    } catch (err) {
+      setError("Failed to load carts data.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    getCarts();
+  const deleteProduct = async (cartId: number) => {
+    if (!userId) return;
+    try {
+      const response = await fetch(
+        `https://texnoark.ilyosbekdev.uz/carts/delete/${cartId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ cart_id: cartId }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete product");
+      }
+
+      const data = await response.json();
+      console.log("Product deleted:", data);
+
+      setCarts((prevCarts) => prevCarts.filter((cart) => cart.id !== cartId));
+    } catch (err) {
+      console.error("Error deleting product:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCarts();
   }, [userId]);
 
   if (loading) {
@@ -64,7 +91,7 @@ export default function Page() {
     <div className="w-[90%] m-auto mt-[50px] flex flex-wrap gap-7">
       {carts.map((item) => (
         <div
-          key={item.id} 
+          key={item.id}
           className="w-[240px] h-auto flex flex-col border-[1px] p-3 rounded-lg"
         >
           <div className="h-[70%] flex justify-center items-center">
@@ -86,7 +113,10 @@ export default function Page() {
             </p>
           </div>
           <div className="flex justify-between">
-            <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
+            <button
+              onClick={() => deleteProduct(item.id)} 
+              className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]"
+            >
               <Image src="/delete.svg" alt="Delete" width={20} height={20} />
             </button>
             <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">

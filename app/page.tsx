@@ -28,20 +28,21 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [products, setProducts] = useState<ProductType[]>([]);
 
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch(
+        "https://texnoark.ilyosbekdev.uz/products/search"
+      );
+      const data = await res.json();
+      const productsData = data?.data?.products || [];
+      setProducts(productsData);
+      console.log(productsData);
+    } catch (error) {
+      console.error("Xatolik yuz berdi:", error);
+    }
+  };
+  
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch(
-          "https://texnoark.ilyosbekdev.uz/products/search"
-        );
-        const data = await res.json();
-        const productsData = data?.data?.products || [];
-        setProducts(productsData);
-        console.log(productsData);
-      } catch (error) {
-        console.error("Xatolik yuz berdi:", error);
-      }
-    };
     fetchProducts();
   }, []);
 
