@@ -13,27 +13,9 @@ const hero = [
 ];
 
 const slides = [
-  {
-    id: 1,
-    image: "/hero.svg",
-    title: "Siz kutgan Xiaomi 12 Mi Lite",
-    description:
-      "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
-  },
-  {
-    id: 2,
-    image: "/komp.svg",
-    title: "Siz kutgan Dell Noutbook",
-    description:
-      "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
-  },
-  {
-    id: 3,
-    image: "/tv.svg",
-    title: "Siz kutgan Smart Tv",
-    description:
-      "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",
-  },
+  {id: 1, image: "/hero.svg", title: "Siz kutgan Xiaomi 12 Mi Lite", description:"Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",},
+  {id: 2, image: "/komp.svg", title: "Siz kutgan Dell Noutbook", description: "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",},
+  {id: 3, image: "/tv.svg", title: "Siz kutgan Smart Tv", description: "Originallik va qulay narxni o'zida jamlagan, siz uchun eng yaxshi arziydigan takliflarimizdan biridir!",},
 ];
 export type ProductType = {
   id: number;
@@ -43,10 +25,8 @@ export type ProductType = {
 };
 
 const Home = () => {
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const [products, setProducts] = useState<ProductType[]>([]);
-
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -65,18 +45,7 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-
- 
-  
-
-
     const handleLike = async (id: number) => {
-      
-      if (!id) {
-        console.error("No product ID provided");
-        return;
-      }
-    
       const token = typeof window !== 'undefined' ? localStorage.getItem("access_token") : '';
       if (!token) {
         console.error("No access token found");
@@ -130,67 +99,60 @@ const Home = () => {
       }
     };
     
+    const handleCart = async (id: number) => {
+      const token = typeof window !== 'undefined' ? localStorage.getItem("access_token") : '';
+      try {
+        const response = await fetch(
+          "https://texnoark.ilyosbekdev.uz/carts/create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ product_id: id }),
+          } 
+        );
+        if (!response.ok) {
+          let errorMessage = "Failed to cart the product";
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch {
+            console.error("Error parsing error message");
+          }
+          throw new Error(errorMessage);
+        }
     
-
+        let cartProducts: number[] = [];
+        try {
+          cartProducts = typeof window !== 'undefined' ? JSON.parse(
+            localStorage.getItem("cartProducts") || "[]"
+          ) : '';
+        } catch {
+          console.error("Failed to parse cartProducts from localStorage");
+          cartProducts = [];
+        }
     
-
+        if (!cartProducts.includes(id)) {
+          cartProducts.push(id);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+          }
+        }
+      } catch (error: any) {
+        console.error(error.message || error);
+      }
+    }
+    
   const cards = [
-    {
-      id: 1,
-      color: "#67B43733",
-      height: 60,
-      img: "/artel.svg",
-      imgwidth: 55,
-      imghieght: 24,
-    },
-    {
-      id: 2,
-      color: "#034EA21A",
-      height: 60,
-      img: "/samsung.svg",
-      imgwidth: 111,
-      imghieght: 38,
-    },
-    {
-      id: 3,
-      color: "#0000001A",
-      height: 60,
-      img: "/apple.svg",
-      imgwidth: 49,
-      imghieght: 58,
-    },
-    {
-      id: 4,
-      color: "#006DB833",
-      height: 60,
-      img: "/vivo.svg",
-      imgwidth: 61,
-      imghieght: 30,
-    },
-    {
-      id: 5,
-      color: "#00439C1F",
-      height: 60,
-      img: "/nokia.svg",
-      imgwidth: 71,
-      imghieght: 40,
-    },
-    {
-      id: 6,
-      color: "#FF670033",
-      height: 60,
-      img: "/mi.svg",
-      imgwidth: 93,
-      imghieght: 50,
-    },
-    {
-      id: 7,
-      color: "#FF1A1F33",
-      height: 60,
-      img: "/huawie.svg",
-      imgwidth: 69,
-      imghieght: 50,
-    },
+    {id: 1, color: "#67B43733", height: 60, img: "/artel.svg", imgwidth: 55, imghieght: 24,},
+    {id: 2, color: "#034EA21A", height: 60, img: "/samsung.svg", imgwidth: 111, imghieght: 38,},
+    {id: 3, color: "#0000001A", height: 60, img: "/apple.svg", imgwidth: 49, imghieght: 58,},
+    {id: 4, color: "#006DB833", height: 60, img: "/vivo.svg", imgwidth: 61, imghieght: 30,},
+    {id: 5, color: "#00439C1F", height: 60, img: "/nokia.svg", imgwidth: 71, imghieght: 40,},
+    {id: 6, color: "#FF670033", height: 60, img: "/mi.svg", imgwidth: 93, imghieght: 50,},
+    {id: 7, color: "#FF1A1F33", height: 60, img: "/huawie.svg", imgwidth: 69, imghieght: 50,},
   ];
 
   const product = [{ id: 1 }, { id: 2 }, { id: 3 }];
@@ -351,9 +313,9 @@ const Home = () => {
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
                       <Image src="/card.svg" alt="img" width={20} height={20} />
                     </button>
-                    <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
-                      {" "}
-                      <p className="text-[12px] text-white">Savatcha</p>{" "}
+                    <button onClick={() => handleCart(item.id)}  className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
+                      
+                      <p className="text-[12px] text-white">Savatcha</p>
                       <Image src="/shop.svg" alt="img" width={20} height={20} />
                     </button>
                   </div>
@@ -435,7 +397,7 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-              {products.map((item) => (
+             {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
@@ -477,9 +439,9 @@ const Home = () => {
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
                       <Image src="/card.svg" alt="img" width={20} height={20} />
                     </button>
-                    <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
-                      {" "}
-                      <p className="text-[12px] text-white">Savatcha</p>{" "}
+                    <button onClick={() => handleCart(item.id)}  className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
+                      
+                      <p className="text-[12px] text-white">Savatcha</p>
                       <Image src="/shop.svg" alt="img" width={20} height={20} />
                     </button>
                   </div>
@@ -558,7 +520,7 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-               {products.map((item) => (
+             {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
@@ -600,9 +562,9 @@ const Home = () => {
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
                       <Image src="/card.svg" alt="img" width={20} height={20} />
                     </button>
-                    <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
-                      {" "}
-                      <p className="text-[12px] text-white">Savatcha</p>{" "}
+                    <button onClick={() => handleCart(item.id)}  className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F] flex gap-2 bg-[#134E9B]">
+                      
+                      <p className="text-[12px] text-white">Savatcha</p>
                       <Image src="/shop.svg" alt="img" width={20} height={20} />
                     </button>
                   </div>

@@ -37,27 +37,35 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const userId = typeof window !== 'undefined' ? localStorage.getItem('user_id') : '';
-  const [count, setCount] = useState(0)
+  const [count1, setCount1] = useState(0)
+  const [count2, setCount2] = useState(0)
   const cards = useMemo(()=>{
     return [
       { id: 1, img: "/header_i1.svg", count: "2", link:"/" },
-      { id: 2, img: "/heart.svg", count: count, link:"/likes" },
-      { id: 3, img: "/header_shop.svg", count: "7", link:"/" },
+      { id: 2, img: "/heart.svg", count: count1, link:"/likes" },
+      { id: 3, img: "/header_shop.svg", count: count2, link:"/carts" },
     ];
-  },[count])
+  },[count1, count2])
 
 
   const getLikes = async ()=> {
     const response = await fetch(`https://texnoark.ilyosbekdev.uz/likes/user/likes/${userId}`)
     const data = await response.json()
-    setCount(data?.data?.count || 0)
+    setCount1(data?.data?.count || 0)
+  }
 
-    
+  const getCarts = async ()=> {
+    const response = await fetch(`https://texnoark.ilyosbekdev.uz/carts/user/${userId}`)
+    const data = await response.json()
+    setCount2(data?.data?.count || 0)
   }
   
-  useEffect(()=>{
-    getLikes()
-  },[])
+  useEffect(() => {
+    if (userId) {
+      getLikes();
+      getCarts();
+    }
+  }, [userId]);
 
 
   return (
@@ -160,18 +168,15 @@ const Page = () => {
           </div>
 
           <div className="gap-[15px] hidden md:flex">
-            {cards.map((item) => (
-              <Link href={'/likes'} key={item.id}>
-                <div
-            
-                className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
-              >
+          {cards.map((item) => (
+              <div  key={item.id}> 
+              <Link href={item.link} className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
                 <Image src={item.img} alt="icon" width={20} height={20} />
                 <div className="absolute top-0 right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
                   {item.count}
                 </div>
-              </div>
               </Link>
+              </div>
             ))}
 
             <Link className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center" href={"/login"} >
@@ -216,17 +221,14 @@ const Page = () => {
 
         <div className="gap-[15px] grid grid-cols-4">
         {cards.map((item) => (
-              <Link href={'/likes'} key={item.id}>
-                <div
-            
-                className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
-              >
+              <div  key={item.id}>
+                <Link href={item.link} className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
                 <Image src={item.img} alt="icon" width={20} height={20} />
                 <div className="absolute top-0 right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
                   {item.count}
                 </div>
-              </div>
               </Link>
+              </div>
             ))}
 
             <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
