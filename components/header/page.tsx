@@ -220,9 +220,9 @@ const Page = () => {
         </div>
 
         <div className="gap-[15px] grid grid-cols-4">
-        {cards.map((item) => (
-              <div  key={item.id}>
-                <Link href={item.link} className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
+          {cards.map((item) => (
+              <div  key={item.id}> 
+              <Link href={item.link} className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
                 <Image src={item.img} alt="icon" width={20} height={20} />
                 <div className="absolute top-0 right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
                   {item.count}
