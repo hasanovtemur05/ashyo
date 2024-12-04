@@ -36,37 +36,40 @@ const categories = [
 const Page = () => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const userId = typeof window !== 'undefined' ? localStorage.getItem('user_id') : '';
-  const [count1, setCount1] = useState(0)
-  const [count2, setCount2] = useState(0)
-  const cards = useMemo(()=>{
+  const userId =
+    typeof window !== "undefined" ? localStorage.getItem("user_id") : "";
+  const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
+  const cards = useMemo(() => {
     return [
-      { id: 1, img: "/header_i1.svg", count: "2", link:"/" },
-      { id: 2, img: "/heart.svg", count: count1, link:"/likes" },
-      { id: 3, img: "/header_shop.svg", count: count2, link:"/carts" },
+      { id: 1, img: "/header_i1.svg", count: "2", link: "/" },
+      { id: 2, img: "/heart.svg", count: count1, link: "/likes" },
+      { id: 3, img: "/header_shop.svg", count: count2, link: "/carts" },
     ];
-  },[count1, count2])
+  }, [count1, count2]);
 
+  const getLikes = async () => {
+    const response = await fetch(
+      `https://texnoark.ilyosbekdev.uz/likes/user/likes/${userId}`
+    );
+    const data = await response.json();
+    setCount1(data?.data?.count || 0);
+  };
 
-  const getLikes = async ()=> {
-    const response = await fetch(`https://texnoark.ilyosbekdev.uz/likes/user/likes/${userId}`)
-    const data = await response.json()
-    setCount1(data?.data?.count || 0)
-  }
+  const getCarts = async () => {
+    const response = await fetch(
+      `https://texnoark.ilyosbekdev.uz/carts/user/${userId}`
+    );
+    const data = await response.json();
+    setCount2(data?.data?.count || 0);
+  };
 
-  const getCarts = async ()=> {
-    const response = await fetch(`https://texnoark.ilyosbekdev.uz/carts/user/${userId}`)
-    const data = await response.json()
-    setCount2(data?.data?.count || 0)
-  }
-  
   useEffect(() => {
     if (userId) {
       getLikes();
       getCarts();
     }
   }, [userId]);
-
 
   return (
     <div className="sticky top-0 left-0 shadow-lg z-[99] ">
@@ -125,9 +128,8 @@ const Page = () => {
             </button>
 
             {dropdownOpen && (
-             
-                <div className="absolute top-[100%] left-5 md:left-[200px] w-[250px] bg-white shadow-lg rounded-md mt-2 p-3">
-               {categories.map((category) => (
+              <div className="absolute top-[100%] left-5 md:left-[200px] w-[250px] bg-white shadow-lg rounded-md mt-2 p-3">
+                {categories.map((category) => (
                   <div
                     key={category.id}
                     className="flex items-center gap-2 py-2 px-3 hover:bg-[#f1f1f1] rounded-md cursor-pointer"
@@ -138,16 +140,15 @@ const Page = () => {
                       width={20}
                       height={20}
                     />
-                    <Link href="/category" className="text-[#203F68] text-[14px]">
+                    <Link
+                      href="/category"
+                      className="text-[#203F68] text-[14px]"
+                    >
                       {category.title}
                     </Link>
                   </div>
                 ))}
-             
               </div>
-
-               
-
             )}
 
             <div className="flex bg-[#F2F0FE] rounded-[5px] justify-between overflow-hidden w-full lg:w-[400px] xl:w-[680px]">
@@ -168,18 +169,24 @@ const Page = () => {
           </div>
 
           <div className="gap-[15px] hidden md:flex">
-          {cards.map((item) => (
-              <div  key={item.id}> 
-              <Link href={item.link} className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
-                <Image src={item.img} alt="icon" width={20} height={20} />
-                <div className="absolute top-0 right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
-                  {item.count}
-                </div>
-              </Link>
+            {cards.map((item) => (
+              <div key={item.id}>
+                <Link
+                  href={item.link}
+                  className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
+                >
+                  <Image src={item.img} alt="icon" width={20} height={20} />
+                  <div className="absolute top-0 right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
+                    {item.count}
+                  </div>
+                </Link>
               </div>
             ))}
 
-            <Link className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center" href={"/login"} >
+            <Link
+              className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
+              href={"/login"}
+            >
               <Image src="/user.svg" alt="icon" width={20} height={20} />
             </Link>
           </div>
@@ -187,10 +194,7 @@ const Page = () => {
 
         <div className="w-[90%] hidden justify-between items-center m-auto mt-[20px] md:flex">
           {links.map((item) => (
-            <Link
-              href={item.link}
-              key={item.id}
-            >
+            <Link href={item.link} key={item.id}>
               {item.title}
             </Link>
           ))}
@@ -221,19 +225,25 @@ const Page = () => {
 
         <div className="gap-[15px] grid grid-cols-4">
           {cards.map((item) => (
-              <div  key={item.id}> 
-              <Link href={item.link} className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
+            <div key={item.id}>
+              <Link
+                href={item.link}
+                className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
+              >
                 <Image src={item.img} alt="icon" width={20} height={20} />
                 <div className="absolute top-0 right-0 w-[15px] h-[15px] bg-[#E81504] rounded-full text-white text-[8px] flex items-center justify-center">
                   {item.count}
                 </div>
               </Link>
-              </div>
-            ))}
-
-            <div className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center">
-              <Image src="/user.svg" alt="icon" width={20} height={20} />
             </div>
+          ))}
+
+          <Link
+            className="relative w-[40px] h-[40px] rounded-[6px] bg-[#F6F6F6] flex items-center justify-center"
+            href={"/login"}
+          >
+            <Image src="/user.svg" alt="icon" width={20} height={20} />
+          </Link>
         </div>
       </div>
     </div>
@@ -241,8 +251,3 @@ const Page = () => {
 };
 
 export default Page;
-
-
-
-
-
