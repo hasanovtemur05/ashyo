@@ -277,7 +277,7 @@ const Home = () => {
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[270px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
                       <button onClick={() => handleLike(item.id)} className="p-[3px] flex justify-center items-center rounded-[50%] ">
                         <Image
@@ -304,11 +304,11 @@ const Home = () => {
                     </div>
                   </div>
 
-                  <h1 className="text-[#545D6A] text-[12px]  mt-3">
+                  <h1 className="text-[#545D6A] text-[16px] lg:text-[18px] mt-3">
                     {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
-                    <h1 className="text-[12px]">{item.price}</h1>
+                    <h1 className="text-[14px] text-red-600"><span className="font-bold">Price:</span> {item.price}$</h1>
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
@@ -398,12 +398,12 @@ const Home = () => {
               id="carousel"
               className="flex gap-6 space-x-4 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory"
             >
-             {products.map((item) => (
+              {products.map((item) => (
                 <div
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[270px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
                       <button onClick={() => handleLike(item.id)} className="p-[3px] flex justify-center items-center rounded-[50%] ">
                         <Image
@@ -430,11 +430,11 @@ const Home = () => {
                     </div>
                   </div>
 
-                  <h1 className="text-[#545D6A] text-[12px]  mt-3">
+                  <h1 className="text-[#545D6A] text-[16px] lg:text-[18px] mt-3">
                     {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
-                    <h1 className="text-[12px]">{item.price}</h1>
+                    <h1 className="text-[14px] text-red-600"><span className="font-bold">Price:</span> {item.price}$</h1>
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
@@ -526,7 +526,7 @@ const Home = () => {
                   key={item.id}
                   className="w-[200px] min-w-[200px] snap-center rounded-[5px] overflow-hidden flex-shrink-0"
                 >
-                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[250px] flex flex-col  gap-[5px] ">
+                  <div className=" rounded-[5px] bg-[#EBEFF3] h-[270px] flex flex-col  gap-[5px] ">
                     <div className="flex justify-end pt-[12px] pr-[12px]">
                       <button onClick={() => handleLike(item.id)} className="p-[3px] flex justify-center items-center rounded-[50%] ">
                         <Image
@@ -553,11 +553,11 @@ const Home = () => {
                     </div>
                   </div>
 
-                  <h1 className="text-[#545D6A] text-[12px]  mt-3">
+                  <h1 className="text-[#545D6A] text-[16px] lg:text-[18px] mt-3">
                     {item.name}
                   </h1>
                   <div className="flex justify-between items-end">
-                    <h1 className="text-[12px]">{item.price}</h1>
+                    <h1 className="text-[14px] text-red-600"><span className="font-bold">Price:</span> {item.price}$</h1>
                   </div>
                   <div className="flex justify-between">
                     <button className="py-[10px] px-[17px] border-[1px] my-3 rounded-[5px] border-[#233C5F]">
