@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 export default function ShowLayout({ children }:any) {
   const pathname = usePathname();
   const isLoginPage = pathname === "/login" ;
+  const isRegisterPage = pathname === "/register"
   
 
-  return !(isLoginPage) ? children : null;
+  return !(isLoginPage || isRegisterPage) ? children : null;
 }

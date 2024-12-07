@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -33,12 +34,9 @@ const Page = () => {
       setCurrentPage(newPage);
     }
   };
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("access_token") : "";
-    
+    const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : "";
     try {
       const response = await fetch(
         "https://texnoark.ilyosbekdev.uz/comment/create",
@@ -63,7 +61,10 @@ const Page = () => {
         );
         return;
       }
-      setValues(""); 
+  
+      // Muvaffaqiyatli bo'lsa:
+      setValues(""); // Textarea'ni tozalash
+      await getCommit(); // Yangi commentlarni olish
     } catch (error) {
       console.error(error);
     }
@@ -137,7 +138,6 @@ const Page = () => {
     });
   };
 
-  useEffect(() => {
     const getCommit = async () => {
       try {
         const response = await fetch(
@@ -153,9 +153,7 @@ const Page = () => {
         console.log(error);
       }
     };
-    getCommit()
-  }, [id])
-
+   
   useEffect(() => {
     const getData = async () => {
       try {
@@ -175,6 +173,7 @@ const Page = () => {
     if (id) {
       getData();
     }
+    getCommit();
   }, [id]);
 
   if (!product) {
@@ -186,6 +185,7 @@ const Page = () => {
       <div className="w-[90%] m-auto mt-[50px] flex flex-col gap-[60px]  md:flex-row">
         <div className="flex gap-[10px] w-full md:w-[65%] ">
           <div className="bg-[#F6F6F6] p-10 rounded-[4px] ">
+            
             <Image
               src={product.images?.[0]}
               alt="img"

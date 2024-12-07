@@ -36,8 +36,7 @@ const categories = [
 const Page = () => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const userId =
-    typeof window !== "undefined" ? localStorage.getItem("user_id") : "";
+  const userId = typeof window !== "undefined" ? localStorage.getItem("user_id") : "";
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
   const cards = useMemo(() => {
@@ -49,19 +48,31 @@ const Page = () => {
   }, [count1, count2]);
 
   const getLikes = async () => {
-    const response = await fetch(
-      `https://texnoark.ilyosbekdev.uz/likes/user/likes/${userId}`
-    );
-    const data = await response.json();
-    setCount1(data?.data?.count || 0);
+    try {
+      const response = await fetch(
+        `https://texnoark.ilyosbekdev.uz/likes/user/likes/${userId}`
+      );
+      const data = await response.json();
+      setCount1(data?.data?.count || 0);
+      console.log(data?.data , "data");
+      
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+  
+
   const getCarts = async () => {
-    const response = await fetch(
-      `https://texnoark.ilyosbekdev.uz/carts/user/${userId}`
-    );
-    const data = await response.json();
-    setCount2(data?.data?.count || 0);
+    try {
+      const response = await fetch(
+        `https://texnoark.ilyosbekdev.uz/carts/user/${userId}`
+      );
+      const data = await response.json();
+      setCount2(data?.data?.count || 0);
+    } catch (error) {
+      console.error("Error fetching carts:", error);
+    }
   };
 
   useEffect(() => {
@@ -141,7 +152,7 @@ const Page = () => {
                       height={20}
                     />
                     <Link
-                      href="/category"
+                      href="/"
                       className="text-[#203F68] text-[14px]"
                     >
                       {category.title}

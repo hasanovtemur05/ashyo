@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { ProductType } from "../page";
 import Image from "next/image";
+import Link from "next/link";
 
 type CartsType = {
   id: number;
@@ -95,6 +96,7 @@ export default function Page() {
           className="w-[240px] h-auto flex flex-col border-[1px] p-3 rounded-lg"
         >
           <div className="h-[70%] flex justify-center items-center">
+          <Link href={`/products/${item.product_id.id}`}>
             <Image
               src={item.product_id.images?.[0] || "/placeholder.png"}
               alt={item.product_id.name || "Product Image"}
@@ -102,6 +104,7 @@ export default function Page() {
               height={100}
               className="object-contain"
             />
+            </Link>
           </div>
           <div>
             <h1 className="text-[#545D6A] text-[20px]">
