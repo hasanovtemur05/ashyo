@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/header/page"
 import Footer from "@/components/footer/page"
 import ShowLayout from "@/components/showlayout/page";
+import { Likeprovider } from './../provider/likesContext';
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -30,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+       <Likeprovider>
         <ShowLayout>
         <Header/>
         </ShowLayout>
@@ -37,6 +40,7 @@ export default function RootLayout({
         <ShowLayout>
         <Footer/>
         </ShowLayout>
+        </Likeprovider>
       </body>
     </html>
   );

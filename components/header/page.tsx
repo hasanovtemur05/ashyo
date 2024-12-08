@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { ProductType } from "@/app/page";
+import { likeContext } from "@/provider/likesContext";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 const link = [
   { id: 1, link: "/", title: "Tashkent" },
@@ -37,15 +39,15 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const userId = typeof window !== "undefined" ? localStorage.getItem("user_id") : "";
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
+  const {cart, setCart} = useContext(likeContext)
+  const {likes, setLikes} = useContext(likeContext)
   const cards = useMemo(() => {
     return [
       { id: 1, img: "/header_i1.svg", count: "2", link: "/" },
-      { id: 2, img: "/heart.svg", count: count1, link: "/likes" },
-      { id: 3, img: "/header_shop.svg", count: count2, link: "/carts" },
+      { id: 2, img: "/heart.svg", count: likes.length || 0, link: "/likes" },
+      { id: 3, img: "/header_shop.svg", count: cart.length || 0, link: "/carts" },
     ];
-  }, [count1, count2]);
+  }, [likes, cart]);
 
   const getLikes = async () => {
     try {
@@ -53,8 +55,10 @@ const Page = () => {
         `https://texnoark.ilyosbekdev.uz/likes/user/likes/${userId}`
       );
       const data = await response.json();
-      setCount1(data?.data?.count || 0);
-      console.log(data?.data , "data");
+      const likes = data?.data?.likes as ProductType[]
+      const likesId = likes ? likes?.map(likes => likes?.id) : [];
+      console.log(likesId, "likesid");
+      setLikes(likesId)
       
     } catch (error) {
       console.error(error);
@@ -69,7 +73,11 @@ const Page = () => {
         `https://texnoark.ilyosbekdev.uz/carts/user/${userId}`
       );
       const data = await response.json();
-      setCount2(data?.data?.count || 0);
+      const cart = data?.data?.carts as ProductType[]
+      const cartsId = cart ? cart?.map(cart => cart?.id) : [];
+      setCart(cartsId)
+      console.log(cartsId, "carts");
+
     } catch (error) {
       console.error("Error fetching carts:", error);
     }

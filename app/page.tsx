@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { likeContext } from "@/provider/likesContext";
 const hero = [
   { id: 1, color: "#5C4F8C", btn: "Noutbooklar", img: "/komp.svg" },
   { id: 2, color: "#797C7D", btn: "Havo sovutgichlar", img: "/product2.svg" },
@@ -45,8 +46,10 @@ export type ProductType = {
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [products, setProducts] = useState<ProductType[]>([]);
-  const [likedProducts, setLikedProducts] = useState<number[]>([]);
-
+ 
+  const {likes, setLikes} = useContext(likeContext)
+  const {cart, setCart} = useContext(likeContext)
+  
   const fetchProducts = async () => {
     try {
       const res = await fetch(
@@ -62,10 +65,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const savedLikes = localStorage.getItem("likedProducts");
-    if (savedLikes) {
-      setLikedProducts(JSON.parse(savedLikes));
-    }
     fetchProducts();
   }, []);
 
@@ -79,6 +78,7 @@ const Home = () => {
 
     if (!token) {
       console.error("No access token found");
+      alert("login qiling")
       return;
     }
 
@@ -101,17 +101,7 @@ const Home = () => {
         throw new Error(errorMessage);
       }
 
-      // Liked holatini yangilash
-      setLikedProducts((prev) => {
-        const isLiked = prev.includes(id);
-        const updatedLikes = isLiked
-          ? prev.filter((likedId) => likedId !== id) // Unlike
-          : [...prev, id]; // Like
-
-        // LocalStorage'ni yangilash
-        localStorage.setItem("likedProducts", JSON.stringify(updatedLikes));
-        return updatedLikes;
-      });
+      setLikes([...likes, id])
 
       console.log("Product liked/unliked successfully!");
     } catch (error: any) {
@@ -147,6 +137,7 @@ const Home = () => {
         }
         throw new Error(errorMessage);
       }
+      setCart([...cart, id])
 
       let cartProducts: number[] = [];
       try {
@@ -231,13 +222,6 @@ const Home = () => {
 
   const product = [{ id: 1 }, { id: 2 }, { id: 3 }];
   const product2 = [{ id: 1 }];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handlePrevSlide = () => {
     setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
@@ -355,7 +339,7 @@ const Home = () => {
                       <button
                          onClick={() => handleLike(item.id)}
                          className={`p-[3px] flex justify-center items-center rounded-[50%] ${
-                           likedProducts.includes(item.id)
+                           likes.includes(item.id)
                              ? "bg-red-500"
                              : "bg-white"
                          }`}
@@ -492,7 +476,7 @@ const Home = () => {
                       <button
                          onClick={() => handleLike(item.id)}
                          className={`p-[3px] flex justify-center items-center rounded-[50%] ${
-                           likedProducts.includes(item.id)
+                           likes.includes(item.id)
                              ? "bg-red-500"
                              : "bg-white"
                          }`}
@@ -626,7 +610,7 @@ const Home = () => {
                       <button
                          onClick={() => handleLike(item.id)}
                          className={`p-[3px] flex justify-center items-center rounded-[50%] ${
-                           likedProducts.includes(item.id)
+                           likes.includes(item.id)
                              ? "bg-red-500"
                              : "bg-white"
                          }`}
